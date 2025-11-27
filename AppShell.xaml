@@ -31,7 +31,12 @@
            ContentTemplate="{DataTemplate pages:ChatPage}"
            Route="chat" />
 
-        <ShellContent Title="Profile" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate pages:ProfilePage}" Route="profile" />
+        <ShellContent 
+            Title="Profile" 
+            Icon="dotnet_bot.png" 
+            ContentTemplate="{DataTemplate pages:ProfilePage}" 
+            Route="profile" />
+        
     </TabBar>
 
 </Shell>

@@ -61,16 +61,6 @@
                 <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="White" Padding="15">
                     <Grid ColumnDefinitions="30, *">
                         <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SettingsCommand}"/>
-                        </Grid.GestureRecognizers>
-                        <Image Grid.Column="0" Source="icon_eye.svg" WidthRequest="20"/>
-                        <Label Grid.Column="1" Text="Settings" VerticalOptions="Center" TextColor="#333" FontSize="16"/>
-                    </Grid>
-                </Border>
-
-                <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="White" Padding="15">
-                    <Grid ColumnDefinitions="30, *">
-                        <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding PoliciesCommand}"/>
                         </Grid.GestureRecognizers>
                         <Image Grid.Column="0" Source="icon_history.svg" WidthRequest="20"/>

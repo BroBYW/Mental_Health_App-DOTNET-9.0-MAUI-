@@ -88,7 +88,8 @@ namespace PROJECT.ViewModels
 
         public ICommand SettingsCommand => new Command(async () =>
         {
-            await Shell.Current.DisplayAlert("Settings", "Settings page coming soon.", "OK");
+            // Navigate to the Settings Page
+            await Shell.Current.GoToAsync("settings");
         });
 
         public ICommand PoliciesCommand => new Command(async () =>
