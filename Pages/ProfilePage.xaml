@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             x:Class="PROJECT.Pages.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="Profile"
+             BackgroundColor="#F4FAF6">
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+            <Button Grid.Column="0" 
+                    Text="Edit Profile" 
+                    FontSize="14"
+                    TextColor="{StaticResource Primary}" 
+                    BackgroundColor="Transparent"
+                    Command="{Binding GoToEditCommand}"
+                    HorizontalOptions="Start"
+                    Padding="0"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="30">
+
+            <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+                <Border StrokeShape="RoundRectangle 60" 
+                        HeightRequest="120" 
+                        WidthRequest="120" 
+                        Stroke="{StaticResource Primary}" 
+                        StrokeThickness="2"
+                        HorizontalOptions="Center">
+
+                    <Image Source="{Binding ProfileImage, TargetNullValue='dotnet_bot.png'}" 
+                           Aspect="AspectFill">
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding ProfileImage}" Value="">
+                                <Setter Property="Source" Value="dotnet_bot.png" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </Border>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="{Binding UserName}" 
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding Email}" 
+                           FontSize="14" 
+                           TextColor="{StaticResource Gray500}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <BoxView HeightRequest="1" Color="{StaticResource Gray200}" Margin="0,10"/>
+
+            <VerticalStackLayout Spacing="15">
+
+                <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="White" Padding="15">
+                    <Grid ColumnDefinitions="30, *">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SettingsCommand}"/>
+                        </Grid.GestureRecognizers>
+                        <Image Grid.Column="0" Source="icon_eye.svg" WidthRequest="20"/>
+                        <Label Grid.Column="1" Text="Settings" VerticalOptions="Center" TextColor="#333" FontSize="16"/>
+                    </Grid>
+                </Border>
+
+                <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="White" Padding="15">
+                    <Grid ColumnDefinitions="30, *">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PoliciesCommand}"/>
+                        </Grid.GestureRecognizers>
+                        <Image Grid.Column="0" Source="icon_history.svg" WidthRequest="20"/>
+                        <Label Grid.Column="1" Text="App Policies" VerticalOptions="Center" TextColor="#333" FontSize="16"/>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <Button Text="Log Out" 
+                    Command="{Binding LogoutCommand}" 
+                    BackgroundColor="{StaticResource MoodAwful}" 
+                    TextColor="White"
+                    Margin="0,30,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

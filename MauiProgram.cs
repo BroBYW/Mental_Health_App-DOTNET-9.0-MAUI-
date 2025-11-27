@@ -53,6 +53,10 @@ namespace PROJECT
             builder.Services.AddTransient<JournalPage>();
             builder.Services.AddTransient<LocationViewModel>();
             builder.Services.AddTransient<LocationPage>();
+            builder.Services.AddTransient<ProfileViewModel>();
+            builder.Services.AddTransient<ProfilePage>();
+            builder.Services.AddTransient<EditProfileViewModel>();
+            builder.Services.AddTransient<EditProfilePage>();
 
             return builder.Build();
         }

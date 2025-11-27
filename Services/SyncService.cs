@@ -13,7 +13,6 @@ namespace PROJECT.Services
     {
         private const string BaseUrl = "https://mad-mental-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
-        // Field is named _localDb
         private readonly LocalDbService _localDb;
         private readonly FirebaseAuthService _authService;
         private FirebaseClient? _firebaseClient;
@@ -37,6 +36,63 @@ namespace PROJECT.Services
             }
         }
 
+        // --- NEW: Save Profile to Realtime Database ---
+        public async Task SaveProfileToDbAsync(string userId, string name, string email, string photoUrl)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet) return;
+
+            InitFirebase();
+
+            try
+            {
+                // Create the profile object
+                var profileData = new UserProfile
+                {
+                    Username = name,
+                    Email = email,
+                    PhotoUrl = photoUrl
+                };
+
+                // Save to: users/{userId}/profile
+                await _firebaseClient!
+                    .Child("users")
+                    .Child(userId)
+                    .Child("profile")
+                    .PutAsync(profileData);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[DB Profile Save Error]: {ex.Message}");
+                throw;
+            }
+        }
+
+        // --- NEW: Get Profile from Realtime Database ---
+        public async Task<UserProfile?> GetUserProfileAsync(string userId)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet) return null;
+
+            InitFirebase();
+
+            try
+            {
+                // Fetch from: users/{userId}/profile
+                var profile = await _firebaseClient!
+                    .Child("users")
+                    .Child(userId)
+                    .Child("profile")
+                    .OnceSingleAsync<UserProfile>();
+
+                return profile;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Get Profile Error]: {ex.Message}");
+                return null;
+            }
+        }
+
+        // --- EXISTING: Push Journal Entries ---
         public async Task PushDataAsync()
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet) return;
@@ -46,7 +102,6 @@ namespace PROJECT.Services
 
             InitFirebase();
 
-            // FIXED: Used _localDb instead of _localDbService
             var dirtyEntries = await _localDb.GetUnsyncedEntries(userId);
 
             foreach (var entry in dirtyEntries)
@@ -61,12 +116,11 @@ namespace PROJECT.Services
 
                     var match = cloudItems.FirstOrDefault(c => Math.Abs((c.Object.Date - entry.Date).TotalSeconds) < 1);
 
-                    // [NEW LOGIC] Handle Deletion
+                    // Handle Deletion
                     if (entry.IsDeleted)
                     {
                         if (match != null)
                         {
-                            // Delete from Firebase
                             await _firebaseClient!
                                 .Child("users")
                                 .Child(userId)
@@ -74,14 +128,11 @@ namespace PROJECT.Services
                                 .Child(match.Key)
                                 .DeleteAsync();
                         }
-
-                        // Now that it's gone from Cloud, remove it permanently from Local DB
-                        // FIXED: Used _localDb instead of _localDbService
                         await _localDb.HardDeleteEntry(entry);
-                        continue; // Skip the rest of the loop for this item
+                        continue;
                     }
 
-                    // [EXISTING LOGIC] Handle Update/Create
+                    // Handle Update/Create
                     if (match != null)
                     {
                         await _firebaseClient!
@@ -101,7 +152,6 @@ namespace PROJECT.Services
                     }
 
                     entry.IsSynced = true;
-                    // FIXED: Used _localDb instead of _localDbService
                     await _localDb.UpdateEntry(entry);
                 }
                 catch (Exception ex)
@@ -111,6 +161,7 @@ namespace PROJECT.Services
             }
         }
 
+        // --- EXISTING: Pull Journal Entries ---
         public async Task PullDataAsync()
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet) return;
@@ -128,7 +179,6 @@ namespace PROJECT.Services
                     .Child("journal")
                     .OnceAsync<JournalEntry>();
 
-                // FIXED: Used _localDb instead of _localDbService
                 var localEntries = await _localDb.GetEntries(userId);
 
                 foreach (var item in cloudItems)
@@ -141,7 +191,6 @@ namespace PROJECT.Services
 
                     if (localEntry == null)
                     {
-                        // FIXED: Used _localDb
                         await _localDb.CreateEntry(cloudEntry);
                     }
                     else
@@ -150,9 +199,7 @@ namespace PROJECT.Services
                         if (cloudEntry.LastUpdated > localEntry.LastUpdated)
                         {
                             cloudEntry.Id = localEntry.Id;
-                            // FIXED: Used _localDb
                             await _localDb.UpdateEntry(cloudEntry);
-                            System.Diagnostics.Debug.WriteLine($"Synced: Updated {cloudEntry.Date} from Cloud.");
                         }
                     }
                 }

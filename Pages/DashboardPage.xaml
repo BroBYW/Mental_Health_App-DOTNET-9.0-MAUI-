@@ -5,11 +5,11 @@
              x:Class="PROJECT.Pages.DashboardPage"
              x:DataType="vm:DashboardViewModel"
              Title="Dashboard">
+
     <ScrollView>
         <VerticalStackLayout Spacing="18" Padding="24">
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
                 <Image Grid.Column="0" Source="logo.png" WidthRequest="36" HeightRequest="36"/>
-                <Button Grid.Column="2" Text="Log Out" BackgroundColor="{StaticResource Primary}" Padding="14,8" Command="{Binding LogoutCommand}" />
             </Grid>
 
             <Label Text="Your Days" FontSize="36" FontAttributes="Bold" TextColor="{StaticResource MidnightBlue}" />

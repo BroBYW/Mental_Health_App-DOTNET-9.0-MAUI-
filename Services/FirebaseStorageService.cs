@@ -6,8 +6,7 @@ namespace PROJECT.Services
 {
     public class FirebaseStorageService
     {
-        // REPLACE with your actual bucket name from Firebase Console -> Storage
-        // It usually looks like: "your-app-id.appspot.com"
+        // Keep your existing bucket name
         private const string FirebaseStorageBucket = "mad-mental.firebasestorage.app";
 
         private readonly FirebaseStorage _firebaseStorage;
@@ -17,12 +16,11 @@ namespace PROJECT.Services
             _firebaseStorage = new FirebaseStorage(FirebaseStorageBucket);
         }
 
-        public async Task<string> UploadImageAsync(Stream fileStream, string fileName)
+        // UPDATED: Added optional 'folderName' parameter
+        public async Task<string> UploadImageAsync(Stream fileStream, string fileName, string folderName = "journal_images")
         {
-            // Uploads to a folder named "journal_images"
-            // Returns the public Download URL
             var imageUrl = await _firebaseStorage
-                .Child("journal_images")
+                .Child(folderName)
                 .Child(fileName)
                 .PutAsync(fileStream);
 

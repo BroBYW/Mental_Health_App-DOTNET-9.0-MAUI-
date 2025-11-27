@@ -66,7 +66,6 @@ namespace PROJECT.ViewModels
             _localDbService = localDbService;
             _authService = authService;
 
-            // --- CHANGED: Populate last 10 years instead of 3 ---
             var year = DateTime.Today.Year;
             for (var y = year - 9; y <= year; y++)
             {

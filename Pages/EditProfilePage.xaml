@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             x:Class="PROJECT.Pages.EditProfilePage"
+             x:DataType="vm:EditProfileViewModel"
+             Title="Edit Details">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30">
+            <Grid HeightRequest="120" WidthRequest="120" HorizontalOptions="Center">
+                <Border StrokeShape="RoundRectangle 60" HeightRequest="120" WidthRequest="120" Stroke="{StaticResource Primary}" StrokeThickness="2">
+                    <Image Source="{Binding ProfileImage, TargetNullValue='dotnet_bot.png'}" Aspect="AspectFill" />
+                </Border>
+                <ImageButton Source="icon_camera.svg" Command="{Binding ChangeImageCommand}" BackgroundColor="{StaticResource Primary}" CornerRadius="16" HeightRequest="32" WidthRequest="32" VerticalOptions="End" HorizontalOptions="End"/>
+            </Grid>
+
+            <Label Text="Username" TextColor="{StaticResource Primary}" FontAttributes="Bold"/>
+            <Entry Text="{Binding UserName}" />
+
+            <Button Text="Save" Command="{Binding SaveCommand}" BackgroundColor="{StaticResource Primary}" CornerRadius="25"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
