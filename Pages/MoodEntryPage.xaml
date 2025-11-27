@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             xmlns:models="clr-namespace:PROJECT.Models"
+             x:Class="PROJECT.Pages.MoodEntryPage"
+             x:DataType="vm:MoodEntryViewModel"
+             Title="New Entry">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="18" Padding="24">
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                <Image Grid.Column="0" Source="icon_logo.svg" WidthRequest="36" HeightRequest="36"/>
+                <Button Grid.Column="2" Text="Log Out" BackgroundColor="{StaticResource Primary}" Padding="14,8" Command="{Binding LogoutCommand}"/>
+            </Grid>
+
+            <Label Text="Hey [Name]!" FontSize="36" FontAttributes="Bold" TextColor="{StaticResource MidnightBlue}" />
+            <Label Text="How do you feel today?" FontSize="24" TextColor="{StaticResource MidnightBlue}" />
+
+            <HorizontalStackLayout Spacing="15" Margin="0,8,0,0" HorizontalOptions="Center">
+
+                <Button Text="☹️"
+                        FontSize="32"
+                        Padding="0"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        CornerRadius="30"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectMoodCommand}"
+                        CommandParameter="{x:Static models:Mood.Awful}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding SelectedMood}" Value="Awful">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                            <Setter Property="BorderWidth" Value="2" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Button Text="🙁"
+                        FontSize="32"
+                        Padding="0"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        CornerRadius="30"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectMoodCommand}"
+                        CommandParameter="{x:Static models:Mood.Bad}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding SelectedMood}" Value="Bad">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                            <Setter Property="BorderWidth" Value="2" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Button Text="😐"
+                        FontSize="32"
+                        Padding="0"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        CornerRadius="30"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectMoodCommand}"
+                        CommandParameter="{x:Static models:Mood.Meh}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding SelectedMood}" Value="Meh">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                            <Setter Property="BorderWidth" Value="2" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Button Text="🙂"
+                        FontSize="32"
+                        Padding="0"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        CornerRadius="30"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectMoodCommand}"
+                        CommandParameter="{x:Static models:Mood.Good}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding SelectedMood}" Value="Good">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                            <Setter Property="BorderWidth" Value="2" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Button Text="😀"
+                        FontSize="32"
+                        Padding="0"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        CornerRadius="30"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        Command="{Binding SelectMoodCommand}"
+                        CommandParameter="{x:Static models:Mood.Rad}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding SelectedMood}" Value="Rad">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                            <Setter Property="BorderWidth" Value="2" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+            </HorizontalStackLayout>
+
+            <Grid>
+                <Editor x:Name="NoteEditor" Text="{Binding Note}" Placeholder="Write about your day..." HeightRequest="220"/>
+                <Label Text="{Binding CharCount, StringFormat='{}{0}/500'}" HorizontalOptions="End" VerticalOptions="End" Margin="0,0,8,8"/>
+            </Grid>
+
+            <Border Padding="24"
+                    StrokeShape="RoundRectangle 90"
+                    BackgroundColor="{StaticResource White}"
+                    Stroke="{StaticResource Primary}"
+                    StrokeThickness="1">
+
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="2,2" Radius="5" Opacity="0.2"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image Source="icon_camera.svg" WidthRequest="28" HeightRequest="28" />
+                    <Button Text="Upload Image" Command="{Binding UploadImageCommand}" BackgroundColor="{StaticResource Primary}" />
+                    <Label Text="(Max 10MB)" FontSize="12" TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Image Source="{Binding ImagePath}" 
+                   HeightRequest="200" 
+                   Aspect="AspectFit"
+                   HorizontalOptions="Center">
+                <Image.Triggers>
+                    <DataTrigger TargetType="Image" Binding="{Binding ImagePath}" Value="{x:Null}">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Image" Binding="{Binding ImagePath}" Value="">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Image.Triggers>
+            </Image>
+
+            <Button Text="Submit" Command="{Binding SubmitCommand}" FontAttributes="Bold" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

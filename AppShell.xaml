@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="PROJECT.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:PROJECT.Pages"
+    Title="PROJECT">
+
+    <TabBar>
+        <ShellContent
+            Title="Dashboard"
+            Icon="icon_dashboard.svg"
+            ContentTemplate="{DataTemplate pages:DashboardPage}"
+            Route="dashboard" />
+
+        <ShellContent
+            Title="Journal"
+            Icon="icon_journal.svg"
+            ContentTemplate="{DataTemplate pages:JournalPage}"
+            Route="journal" />
+
+        <ShellContent
+           Title="Location"
+           Icon="icon_location.svg"
+           ContentTemplate="{DataTemplate pages:LocationPage}"
+           Route="location" />
+
+        <ShellContent
+           Title="Chat"
+           Icon="icon_logo.svg"
+           ContentTemplate="{DataTemplate pages:ChatPage}"
+           Route="chat" />
+
+    </TabBar>
+
+</Shell>

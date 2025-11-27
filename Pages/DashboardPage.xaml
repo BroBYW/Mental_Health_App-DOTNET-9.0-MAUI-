@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             x:Class="PROJECT.Pages.DashboardPage"
+             x:DataType="vm:DashboardViewModel"
+             Title="Dashboard">
+    <ScrollView>
+        <VerticalStackLayout Spacing="18" Padding="24">
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                <Image Grid.Column="0" Source="logo.png" WidthRequest="36" HeightRequest="36"/>
+                <Button Grid.Column="2" Text="Log Out" BackgroundColor="{StaticResource Primary}" Padding="14,8" Command="{Binding LogoutCommand}" />
+            </Grid>
+
+            <Label Text="Your Days" FontSize="36" FontAttributes="Bold" TextColor="{StaticResource MidnightBlue}" />
+            <Label Text="at a Glance" FontSize="24" TextColor="{StaticResource MidnightBlue}" />
+
+            <HorizontalStackLayout Spacing="12">
+                <Picker ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" WidthRequest="140" />
+
+                <Button Text="{Binding AverageMood}" 
+                        BackgroundColor="{StaticResource Secondary}" 
+                        TextColor="{StaticResource Primary}" />
+            </HorizontalStackLayout>
+
+            <GraphicsView x:Name="ChartView" HeightRequest="240"/>
+
+            <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 24" StrokeThickness="0" Padding="16">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,0" Radius="5" Opacity="0.2"/>
+                </Border.Shadow>
+                <VerticalStackLayout>
+                    <Label Text="Quote" TextColor="White" FontAttributes="Bold"/>
+                    <Label Text="{Binding Quote}" TextColor="{StaticResource Secondary}"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="New Entry" Command="{Binding NewEntryCommand}" FontAttributes="Bold" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             xmlns:models="clr-namespace:PROJECT.Models"
+             x:Class="PROJECT.Pages.LocationPage"
+             x:DataType="vm:LocationViewModel"
+             Title="Find Help">
+
+    <Grid RowDefinitions="Auto, 350, *">
+
+        <VerticalStackLayout Grid.Row="0" Padding="20,10">
+            <Label Text="Nearest Clinics" Style="{StaticResource Headline}" HorizontalOptions="Start"/>
+            <Label Text="{Binding Address}" FontSize="12" TextColor="Gray" />
+        </VerticalStackLayout>
+
+        <maps:Map Grid.Row="1"
+                  x:Name="ClinicMap"
+                  ItemsSource="{Binding Clinics}"
+                  IsShowingUser="True"
+                  MapType="Street">
+            <maps:Map.ItemTemplate>
+                <DataTemplate x:DataType="models:Clinic">
+                    <maps:Pin Label="{Binding Name}"
+                              Address="{Binding DistanceDisplay}"
+                              Location="{Binding Location}"
+                              Type="Place" />
+                </DataTemplate>
+            </maps:Map.ItemTemplate>
+        </maps:Map>
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Clinics}" Margin="0,10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Clinic">
+                    <Border StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0"
+                            BackgroundColor="{StaticResource White}"
+                            Padding="15"
+                            Margin="20,6"
+                            Shadow="True">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}" FontAttributes="Bold" TextColor="{StaticResource Primary}" FontSize="16"/>
+                                <Label Text="{Binding Address}" FontSize="13" TextColor="{StaticResource Gray500}"/>
+
+                                <Label Text="{Binding DistanceDisplay}" 
+                                       FontSize="12" 
+                                       TextColor="{StaticResource Tertiary}" 
+                                       FontAttributes="Bold"
+                                       Margin="0,4,0,0"/>
+                            </VerticalStackLayout>
+
+                            <Image Grid.Column="1" Source="icon_location.svg" WidthRequest="28" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

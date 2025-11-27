@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             x:Class="PROJECT.Pages.RegisterPage"
+             x:DataType="vm:RegisterViewModel"
+             Title="Register"
+             BackgroundColor="#F2EFE9">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,60" Spacing="15">
+
+            <Image x:Name="LogoImage"
+                   Source="logo.png"
+                   HeightRequest="70"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10"/>
+
+            <Image x:Name="HeroImage"
+                   Source="map.png"
+                   HeightRequest="180"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Hey there!" 
+                   FontSize="22" 
+                   TextColor="#39413F" 
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Welcome" 
+                   FontSize="36" 
+                   FontAttributes="Bold" 
+                   TextColor="#39413F" 
+                   HorizontalOptions="Center"/>
+
+            <Entry Placeholder="Email" Text="{Binding Email}" />
+
+            <Grid ColumnDefinitions="*, Auto">
+                <Entry Grid.Column="0"
+                       Placeholder="Password"
+                       IsPassword="{Binding IsPasswordHidden}"
+                       Text="{Binding Password}" />
+
+                <ImageButton Grid.Column="1"
+                             Source="icon_eye.svg"
+                             Command="{Binding TogglePasswordCommand}"
+                             HeightRequest="24"
+                             WidthRequest="24"
+                             VerticalOptions="Center"
+                             Margin="0,0,5,0">
+                    <ImageButton.Triggers>
+                        <DataTrigger TargetType="ImageButton" Binding="{Binding IsPasswordHidden}" Value="False">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </DataTrigger>
+                    </ImageButton.Triggers>
+                </ImageButton>
+            </Grid>
+
+            <Label Text="Must be 8 characters in length with at least 1 number" FontSize="12" TextColor="#9E9E9E"/>
+
+            <Grid ColumnDefinitions="*, Auto">
+                <Entry Grid.Column="0"
+                       Placeholder="Confirm Password"
+                       IsPassword="{Binding IsPasswordHidden}"
+                       Text="{Binding ConfirmPassword}" />
+
+                <ImageButton Grid.Column="1"
+                             Source="icon_eye.svg"
+                             Command="{Binding TogglePasswordCommand}"
+                             HeightRequest="24"
+                             WidthRequest="24"
+                             VerticalOptions="Center"
+                             Margin="0,0,5,0">
+                    <ImageButton.Triggers>
+                        <DataTrigger TargetType="ImageButton" Binding="{Binding IsPasswordHidden}" Value="False">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </DataTrigger>
+                    </ImageButton.Triggers>
+                </ImageButton>
+            </Grid>
+
+            <Button Text="Register"
+                    Command="{Binding RegisterCommand}"
+                    BackgroundColor="#253F33"
+                    TextColor="White"
+                    CornerRadius="25"
+                    Margin="0,20,0,0"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,10,0,0">
+                <Label Text="Already have an account?" />
+                <Label Text="Log in here"
+                       TextColor="#253F33"
+                       FontAttributes="Bold"
+                       Margin="5,0,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LoginNavigateCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
