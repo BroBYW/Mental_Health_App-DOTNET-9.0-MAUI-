@@ -3,8 +3,8 @@ using PROJECT.Services;
 using PROJECT.ViewModels;
 using PROJECT.Pages;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-// 1. Add this using statement
 using Microsoft.Maui.Controls.Hosting;
+using Plugin.LocalNotification;
 
 namespace PROJECT
 {
@@ -17,6 +17,7 @@ namespace PROJECT
                 .UseMauiApp<App>()
                 // 2. ADD THIS LINE HERE:
                 .UseMauiMaps()
+                .UseLocalNotification()
                 .UseSkiaSharp() // You can keep this if you still use Skia elsewhere
                 .ConfigureFonts(fonts =>
                 {
@@ -53,10 +54,12 @@ namespace PROJECT
             builder.Services.AddTransient<JournalPage>();
             builder.Services.AddTransient<LocationViewModel>();
             builder.Services.AddTransient<LocationPage>();
-            builder.Services.AddTransient<ProfileViewModel>();
-            builder.Services.AddTransient<ProfilePage>();
+            builder.Services.AddSingleton<ProfileViewModel>(); // <--- Change to Singleton
+            builder.Services.AddSingleton<ProfilePage>();      // <--- Change to Singleton
             builder.Services.AddTransient<EditProfileViewModel>();
             builder.Services.AddTransient<EditProfilePage>();
+            builder.Services.AddTransient<AppPoliciesViewModel>();
+            builder.Services.AddTransient<AppPoliciesPage>();
 
             return builder.Build();
         }

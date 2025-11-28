@@ -37,6 +37,16 @@ namespace PROJECT.ViewModels
         {
             _authService = authService;
             _syncService = syncService;
+
+            // --- ADD THIS BLOCK ---
+            // Load cached info immediately so the user sees something while we fetch fresh data
+            var user = _authService.GetCurrentUser();
+            if (user != null)
+            {
+                UserName = user.Info.DisplayName ?? "User";
+                Email = user.Info.Email;
+                ProfileImage = user.Info.PhotoUrl; // Shows the photo instantly!
+            }
         }
 
         public async Task LoadUserProfileAsync()
@@ -86,15 +96,9 @@ namespace PROJECT.ViewModels
             await Shell.Current.GoToAsync("editProfile");
         });
 
-        public ICommand SettingsCommand => new Command(async () =>
-        {
-            // Navigate to the Settings Page
-            await Shell.Current.GoToAsync("settings");
-        });
-
         public ICommand PoliciesCommand => new Command(async () =>
         {
-            await Shell.Current.DisplayAlert("Policies", "Privacy Policy & Terms coming soon.", "OK");
+            await Shell.Current.GoToAsync("policies");
         });
     }
 }

@@ -25,20 +25,20 @@
 
             <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
                 <Border StrokeShape="RoundRectangle 60" 
-                        HeightRequest="120" 
-                        WidthRequest="120" 
-                        Stroke="{StaticResource Primary}" 
-                        StrokeThickness="2"
-                        HorizontalOptions="Center">
+        HeightRequest="120" 
+        WidthRequest="120" 
+        Stroke="{StaticResource Primary}" 
+        StrokeThickness="2"
+        HorizontalOptions="Center">
 
-                    <Image Source="{Binding ProfileImage, TargetNullValue='dotnet_bot.png'}" 
-                           Aspect="AspectFill">
-                        <Image.Triggers>
-                            <DataTrigger TargetType="Image" Binding="{Binding ProfileImage}" Value="">
-                                <Setter Property="Source" Value="dotnet_bot.png" />
-                            </DataTrigger>
-                        </Image.Triggers>
-                    </Image>
+                    <Grid>
+                        <Image Source="dotnet_bot.png" 
+               Aspect="AspectFill" />
+
+                        <Image Source="{Binding ProfileImage}" 
+               Aspect="AspectFill" />
+                    </Grid>
+
                 </Border>
 
                 <VerticalStackLayout Spacing="5">

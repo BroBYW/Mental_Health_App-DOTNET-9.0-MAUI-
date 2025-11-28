@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
 	</PropertyGroup>
@@ -11,14 +11,15 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation><ApplicationTitle>PROJECT</ApplicationTitle>
-		<ApplicationId>com.companyname.project</ApplicationId>
+		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+		<ApplicationTitle>MindTrack</ApplicationTitle>
+		<ApplicationId>com.brobyw.MindTrack</ApplicationId>
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 	<ItemGroup>
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\applogo.png"/>
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 		<MauiImage Include="Resources\Images\dotnet_bot.png" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
@@ -43,6 +44,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.82" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="9.0.82" />
+		<PackageReference Include="Plugin.LocalNotification" Version="12.0.2" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.119.1" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
@@ -56,18 +58,18 @@
 			<DependentUpon>JournalPage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="Pages\ChatPage.xaml.cs">
-		  <DependentUpon>ChatPage.xaml</DependentUpon>
+			<DependentUpon>ChatPage.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="Pages\ChatPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\EditProfilePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProfilePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Pages\ChatPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\EditProfilePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\ProfilePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 </Project>

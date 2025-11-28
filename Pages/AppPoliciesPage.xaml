@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             x:Class="PROJECT.Pages.AppPoliciesPage"
+             x:DataType="vm:AppPoliciesViewModel"
+             Title="Policies"
+             BackgroundColor="#F4FAF6">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="24">
+
+            <Label Text="Privacy Policy" Style="{StaticResource Headline}" HorizontalOptions="Start" FontSize="24"/>
+
+            <Label Text="Last Updated: November 2025" TextColor="{StaticResource Gray500}" FontSize="12"/>
+
+            <Label Text="1. Data Collection" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+            <Label Text="We collect personal data that you voluntarily provide, including your name, email address, mood entries, and journal logs. This data is stored locally on your device and synchronized with a secure cloud database (Firebase) to ensure you can access your data across devices." TextColor="{StaticResource Black}"/>
+
+            <Label Text="2. AI Features" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+            <Label Text="Our Chat feature utilizes OpenAI's GPT technology. When you send a message to the chat bot, your text is sent to OpenAI for processing. We do not use your personal journal entries to train these models." TextColor="{StaticResource Black}"/>
+
+            <Label Text="3. Location Data" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+            <Label Text="This app requests access to your location solely to help you find nearby mental health clinics. Your precise location data is processed locally on your device and is not stored on our servers." TextColor="{StaticResource Black}"/>
+
+            <BoxView HeightRequest="1" Color="{StaticResource Gray200}" Margin="0,10"/>
+
+            <Label Text="Terms of Service" Style="{StaticResource Headline}" HorizontalOptions="Start" FontSize="24"/>
+
+            <Label Text="1. Medical Disclaimer" FontAttributes="Bold" TextColor="{StaticResource MoodAwful}"/>
+            <Label Text="This application is for informational and self-help purposes only. It is NOT a substitute for professional medical advice, diagnosis, or treatment. If you are experiencing a mental health emergency, please contact a professional or emergency services immediately." TextColor="{StaticResource Black}"/>
+
+            <Label Text="2. User Responsibilities" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+            <Label Text="You are responsible for maintaining the confidentiality of your account login information. We are not liable for any loss or damage arising from your failure to protect your password." TextColor="{StaticResource Black}"/>
+
+            <Label Text="3. Termination" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+            <Label Text="We reserve the right to terminate or suspend your account if you misuse the application or violate these terms." TextColor="{StaticResource Black}"/>
+
+            <Button Text="Close" Command="{Binding CloseCommand}" Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

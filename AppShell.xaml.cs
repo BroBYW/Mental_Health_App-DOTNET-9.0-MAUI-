@@ -10,6 +10,7 @@ namespace PROJECT
             Routing.RegisterRoute("register", typeof(Pages.RegisterPage));
             // Register Edit Profile Route
             Routing.RegisterRoute("editProfile", typeof(Pages.EditProfilePage));
+            Routing.RegisterRoute("policies", typeof(Pages.AppPoliciesPage));
         }
     }
 }
