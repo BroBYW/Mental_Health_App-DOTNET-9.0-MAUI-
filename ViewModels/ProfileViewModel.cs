@@ -67,23 +67,34 @@ namespace PROJECT.ViewModels
                     UserName = dbProfile.Username;
                     Email = dbProfile.Email;
 
-                    // ✅ FIX: Convert empty string to null so XAML TargetNullValue works
-                    ProfileImage = string.IsNullOrEmpty(dbProfile.PhotoUrl) ? null : dbProfile.PhotoUrl;
+                    // Only update if we have a valid URL, otherwise keep existing or set null
+                    if (!string.IsNullOrEmpty(dbProfile.PhotoUrl))
+                    {
+                        ProfileImage = dbProfile.PhotoUrl;
+                    }
                 }
                 else
                 {
-                    // 2. Fallback to Auth Data if DB is empty
-                    var user = _authService.GetCurrentUser();
-                    if (user != null)
+                    // 2. Fallback to Auth Data ONLY if we don't have a profile image yet
+                    if (string.IsNullOrEmpty(ProfileImage))
                     {
-                        UserName = user.Info.DisplayName ?? "User";
-                        Email = user.Info.Email;
+                        var user = _authService.GetCurrentUser();
+                        if (user != null)
+                        {
+                            UserName = user.Info.DisplayName ?? "User";
+                            Email = user.Info.Email;
 
-                        // ✅ FIX: Convert empty string to null here too
-                        var photoUrl = user.Info.PhotoUrl;
-                        ProfileImage = string.IsNullOrEmpty(photoUrl) ? null : photoUrl;
+                            if (!string.IsNullOrEmpty(user.Info.PhotoUrl))
+                            {
+                                ProfileImage = user.Info.PhotoUrl;
+                            }
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Profile Load Error: {ex.Message}");
             }
             finally
             {

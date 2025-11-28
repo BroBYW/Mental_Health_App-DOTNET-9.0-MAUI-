@@ -70,13 +70,13 @@ namespace PROJECT
                     await LocalNotificationCenter.Current.RequestNotificationPermission();
                 }
 
-                // 1. Morning Check-in (9:15 AM)
+                // 1. Morning Check-in (8:00 AM)
                 await ScheduleSingleNotification(
                     id: 100,
                     title: "Daily Check-in",
                     message: "Good morning! Ready to start your day with a mental health check-in?",
-                    hour: 9,
-                    minute: 15);
+                    hour: 8,
+                    minute: 0);
 
                 // 2. Evening Reflection (8:00 PM)
                 await ScheduleSingleNotification(
