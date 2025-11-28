@@ -29,9 +29,19 @@
                 <Border.Shadow>
                     <Shadow Brush="Black" Offset="0,0" Radius="5" Opacity="0.2"/>
                 </Border.Shadow>
-                <VerticalStackLayout>
-                    <Label Text="Quote" TextColor="White" FontAttributes="Bold"/>
-                    <Label Text="{Binding Quote}" TextColor="{StaticResource Secondary}"/>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Daily Inspiration" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+                    <Image Source="{Binding QuoteImage}" 
+                           HeightRequest="150" 
+                           Aspect="AspectFit" 
+                           HorizontalOptions="Center" />
+
+                    <Label Text="{Binding Quote}" 
+                           TextColor="{StaticResource Secondary}" 
+                           HorizontalOptions="Center" 
+                           HorizontalTextAlignment="Center"
+                           FontAttributes="Italic"/>
                 </VerticalStackLayout>
             </Border>
 

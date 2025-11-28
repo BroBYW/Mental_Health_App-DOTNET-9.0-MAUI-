@@ -10,24 +10,27 @@ using System.Collections.Generic;
 
 namespace PROJECT.ViewModels
 {
+    // Simple helper class for the pair
+    public class QuoteItem
+    {
+        public string Image { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+
     public class DashboardViewModel : BaseViewModel
     {
         private readonly LocalDbService _localDbService;
         private readonly FirebaseAuthService _authService;
         private readonly IDispatcherTimer? _quoteTimer;
 
-        private readonly List<string> _quotes = new()
+        // UPDATED: List now contains specific Image + Text pairs
+        private readonly List<QuoteItem> _quotes = new()
         {
-            "Every day may not be good, but there is something good in every day.",
-            "You are enough just as you are.",
-            "Healing isn't linear. Be gentle with yourself.",
-            "Your mental health is a priority. Your happiness is an essential. Your self-care is a necessity.",
-            "It’s okay not to be okay.",
-            "Small steps are still progress.",
-            "Breathe. This is just a chapter, not the whole story.",
-            "You don’t have to control your thoughts. You just have to stop letting them control you.",
-            "Self-care is how you take your power back.",
-            "One day at a time."
+            new QuoteItem { Image = "quote1.png", Text = "Every day may not be good, but there is something good in every day." },
+            new QuoteItem { Image = "quote2.png", Text = "You are enough just as you are." },
+            new QuoteItem { Image = "quote3.png", Text = "Healing isn't linear. Be gentle with yourself." },
+            new QuoteItem { Image = "quote4.png", Text = "Your mental health is a priority. Your happiness is an essential. Your self-care is a necessity." },
+            new QuoteItem { Image = "quote5.png", Text = "It’s okay not to be okay." }
         };
 
         public ObservableCollection<int> Years { get; } = new();
@@ -35,6 +38,7 @@ namespace PROJECT.ViewModels
 
         private int _selectedYear;
         private string _quote = string.Empty;
+        private string _quoteImage = string.Empty; // NEW Property
         private string _averageMood = "No Data";
 
         public int SelectedYear
@@ -53,6 +57,13 @@ namespace PROJECT.ViewModels
         {
             get => _quote;
             set => SetProperty(ref _quote, value);
+        }
+
+        // NEW Property to bind the image to
+        public string QuoteImage
+        {
+            get => _quoteImage;
+            set => SetProperty(ref _quoteImage, value);
         }
 
         public string AverageMood
@@ -77,7 +88,7 @@ namespace PROJECT.ViewModels
             if (Application.Current != null)
             {
                 _quoteTimer = Application.Current.Dispatcher.CreateTimer();
-                _quoteTimer.Interval = TimeSpan.FromSeconds(30);
+                _quoteTimer.Interval = TimeSpan.FromSeconds(5);
                 _quoteTimer.Tick += (s, e) => UpdateQuote();
                 _quoteTimer.Start();
             }
@@ -90,7 +101,11 @@ namespace PROJECT.ViewModels
             if (_quotes.Count > 0)
             {
                 var random = new Random();
-                Quote = _quotes[random.Next(_quotes.Count)];
+                var selectedItem = _quotes[random.Next(_quotes.Count)];
+
+                // Set both properties
+                Quote = selectedItem.Text;
+                QuoteImage = selectedItem.Image;
             }
         }
 

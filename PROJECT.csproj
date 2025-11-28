@@ -19,7 +19,7 @@
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 	<ItemGroup>
-		<MauiIcon Include="Resources\AppIcon\applogo.png"/>
+		<MauiIcon Include="Resources\AppIcon\applogo.png" />
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 		<MauiImage Include="Resources\Images\dotnet_bot.png" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
@@ -33,6 +33,11 @@
 		<MauiImage Include="Resources\Images\journal.png" />
 		<MauiImage Include="Resources\Images\map.png" />
 		<MauiImage Include="Resources\Images\logo.png" />
+		<MauiImage Include="Resources\quotes\quote1.png" />
+		<MauiImage Include="Resources\quotes\quote2.png" />
+		<MauiImage Include="Resources\quotes\quote3.png" />
+	    <MauiImage Include="Resources\quotes\quote4.png" />
+		<MauiImage Include="Resources\quotes\quote5.png" />
 		<MauiFont Include="Resources\Fonts\*" />
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
@@ -71,5 +76,8 @@
 		<MauiXaml Update="Pages\ProfilePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Resources\quotes\" />
 	</ItemGroup>
 </Project>
