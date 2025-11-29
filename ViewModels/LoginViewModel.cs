@@ -54,11 +54,39 @@ namespace PROJECT.ViewModels
 
         public ICommand ForgotPasswordCommand => new Command(async () =>
         {
-            // Use the current window's page to avoid obsolete MainPage usage and null dereference
+            // 1. Get the current page reference for alerts
             var mainPage = Application.Current?.Windows.FirstOrDefault()?.Page;
-            if (mainPage != null)
+            if (mainPage == null) return;
+
+            // 2. Validate that an email has been entered
+            if (string.IsNullOrWhiteSpace(EmailOrPhone))
             {
-                await mainPage.DisplayAlert("Info", "Forgot Password feature coming soon.", "OK");
+                await mainPage.DisplayAlert("Error", "Please enter your email address in the field above to reset your password.", "OK");
+                return;
+            }
+
+            if (IsLoading) return;
+
+            try
+            {
+                IsLoading = true;
+
+                // 3. Call the service
+                await _authService.ResetPasswordAsync(EmailOrPhone);
+
+                // 4. Success Message
+                await mainPage.DisplayAlert("Email Sent",
+                    $"A password reset link has been sent to {EmailOrPhone}. Please check your inbox (and spam folder).",
+                    "OK");
+            }
+            catch (Exception)
+            {
+                // 5. Error Message
+                await mainPage.DisplayAlert("Error", "Failed to send reset email. Please ensure the email address is correct and registered.", "OK");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         });
 

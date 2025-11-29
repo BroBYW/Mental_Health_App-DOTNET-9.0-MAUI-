@@ -176,5 +176,19 @@ namespace PROJECT.Services
         {
             return await SecureStorage.Default.GetAsync("auth_token") ?? string.Empty;
         }
+
+        public async Task ResetPasswordAsync(string email)
+        {
+            try
+            {
+                // This sends the password reset email to the user
+                await _authClient.ResetEmailPasswordAsync(email);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Password Reset Failed: {ex.Message}");
+                throw; // Re-throw to handle it in the ViewModel
+            }
+        }
     }
 }
