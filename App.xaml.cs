@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Plugin.LocalNotification;
 using System;
 using System.Linq;
+using Microsoft.Maui.ApplicationModel;
 
 namespace PROJECT
 {
@@ -35,6 +36,7 @@ namespace PROJECT
         {
             base.OnStart();
 
+            // 1. CRITICAL: Authentication check must happen fast to show the correct page.
             await _authService.InitializeAsync();
 
             if (!string.IsNullOrEmpty(_authService.CurrentUserId))
@@ -48,17 +50,27 @@ namespace PROJECT
                 });
             }
 
-            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            // 2. BACKGROUND TASK: Offload heavy lifting to prevent startup freeze (ANR).
+            // We fire and forget this task so OnStart returns immediately.
+            _ = Task.Run(async () =>
             {
-                _ = Task.Run(async () =>
+                // A small delay gives the UI time to paint the first frame.
+                await Task.Delay(1500);
+
+                // Sync Data
+                if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                 {
                     await _syncService.PushDataAsync();
                     await _syncService.PullDataAsync();
-                });
-            }
+                }
 
-            // Schedule Multiple Notifications
-            await ScheduleNotifications();
+                // Schedule Notifications
+                // We wrap this in MainThread because permission requests usually require the UI thread.
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await ScheduleNotifications();
+                });
+            });
         }
 
         private async Task ScheduleNotifications()
@@ -123,8 +135,12 @@ namespace PROJECT
             if (e.NetworkAccess == NetworkAccess.Internet)
             {
                 System.Diagnostics.Debug.WriteLine("Internet connection restored. Starting sync...");
-                await _syncService.PushDataAsync();
-                await _syncService.PullDataAsync();
+                // Run sync in background to avoid blocking UI during connectivity changes
+                await Task.Run(async () =>
+                {
+                    await _syncService.PushDataAsync();
+                    await _syncService.PullDataAsync();
+                });
             }
         }
     }

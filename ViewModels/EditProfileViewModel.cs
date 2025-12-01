@@ -1,5 +1,5 @@
 ﻿using PROJECT.Services;
-using PROJECT.Models; // Need this for UserProfile
+using PROJECT.Models;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -29,10 +29,9 @@ namespace PROJECT.ViewModels
             _authService = authService;
             _storageService = storageService;
             _syncService = syncService;
-            // Removed synchronous LoadUserProfile() from here
         }
 
-        // NEW: Load data from DB to ensure we are editing current values
+        // Load data from DB to ensure we are editing current values
         public async Task LoadCurrentData()
         {
             if (IsBusy) return;
@@ -43,24 +42,32 @@ namespace PROJECT.ViewModels
                 var userId = _authService.CurrentUserId;
                 if (string.IsNullOrEmpty(userId)) return;
 
-                // 1. Try fetching from Database (Most accurate)
+                // 1. Try fetching from Database
                 var dbProfile = await _syncService.GetUserProfileAsync(userId);
+
+                // Always get Auth user as backup source of truth
+                var authUser = _authService.GetCurrentUser();
 
                 if (dbProfile != null)
                 {
                     UserName = dbProfile.Username;
-                    Email = dbProfile.Email;
+
+                    // FIX: If DB email is missing, grab it from Auth
+                    if (!string.IsNullOrEmpty(dbProfile.Email))
+                        Email = dbProfile.Email;
+                    else if (authUser != null)
+                        Email = authUser.Info.Email;
+
                     ProfileImage = dbProfile.PhotoUrl;
                 }
                 else
                 {
                     // 2. Fallback to Auth Cache if DB is empty
-                    var user = _authService.GetCurrentUser();
-                    if (user != null)
+                    if (authUser != null)
                     {
-                        UserName = user.Info.DisplayName ?? "";
-                        Email = user.Info.Email;
-                        ProfileImage = user.Info.PhotoUrl;
+                        UserName = authUser.Info.DisplayName ?? "";
+                        Email = authUser.Info.Email;
+                        ProfileImage = authUser.Info.PhotoUrl;
                     }
                 }
             }
@@ -101,7 +108,7 @@ namespace PROJECT.ViewModels
                 var currentUserId = _authService.CurrentUserId;
                 if (!string.IsNullOrEmpty(currentUserId))
                 {
-                    // Now we are passing the CORRECT existing values + new edits
+                    // This will now save the correct Email (recovered from Auth) back to the DB
                     await _syncService.SaveProfileToDbAsync(currentUserId, finalName, Email, finalPhotoUrl);
                 }
 

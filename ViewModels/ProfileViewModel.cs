@@ -3,6 +3,7 @@ using PROJECT.Models;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
+using System;
 
 namespace PROJECT.ViewModels
 {
@@ -38,14 +39,13 @@ namespace PROJECT.ViewModels
             _authService = authService;
             _syncService = syncService;
 
-            // --- ADD THIS BLOCK ---
             // Load cached info immediately so the user sees something while we fetch fresh data
             var user = _authService.GetCurrentUser();
             if (user != null)
             {
                 UserName = user.Info.DisplayName ?? "User";
                 Email = user.Info.Email;
-                ProfileImage = user.Info.PhotoUrl; // Shows the photo instantly!
+                ProfileImage = user.Info.PhotoUrl;
             }
         }
 
@@ -65,9 +65,21 @@ namespace PROJECT.ViewModels
                 if (dbProfile != null)
                 {
                     UserName = dbProfile.Username;
-                    Email = dbProfile.Email;
 
-                    // Only update if we have a valid URL, otherwise keep existing or set null
+                    // FIX: Only overwrite Email if the DB actually has one. 
+                    // Otherwise, keep the Auth email we loaded in the constructor.
+                    if (!string.IsNullOrEmpty(dbProfile.Email))
+                    {
+                        Email = dbProfile.Email;
+                    }
+                    else
+                    {
+                        // Fallback: If DB email is empty, double-check Auth
+                        var user = _authService.GetCurrentUser();
+                        if (user != null) Email = user.Info.Email;
+                    }
+
+                    // Only update if we have a valid URL
                     if (!string.IsNullOrEmpty(dbProfile.PhotoUrl))
                     {
                         ProfileImage = dbProfile.PhotoUrl;
@@ -75,7 +87,7 @@ namespace PROJECT.ViewModels
                 }
                 else
                 {
-                    // 2. Fallback to Auth Data ONLY if we don't have a profile image yet
+                    // 2. Fallback to Auth Data if NO db profile exists
                     if (string.IsNullOrEmpty(ProfileImage))
                     {
                         var user = _authService.GetCurrentUser();

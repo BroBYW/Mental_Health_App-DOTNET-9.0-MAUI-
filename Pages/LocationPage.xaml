@@ -16,10 +16,9 @@
         </VerticalStackLayout>
 
         <maps:Map Grid.Row="1"
-                  x:Name="ClinicMap"
-                  ItemsSource="{Binding Clinics}"
-                  IsShowingUser="True"
-                  MapType="Street">
+          x:Name="ClinicMap"
+          ItemsSource="{Binding Clinics}"
+          IsShowingUser="{Binding IsLocationPermitted}"  MapType="Street">
             <maps:Map.ItemTemplate>
                 <DataTemplate x:DataType="models:Clinic">
                     <maps:Pin Label="{Binding Name}"
