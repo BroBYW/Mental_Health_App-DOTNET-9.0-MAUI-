@@ -20,8 +20,14 @@
             Route="journal" />
 
         <ShellContent
+    Title="Clinics"
+    Icon="icon_location.svg"
+    ContentTemplate="{DataTemplate pages:ClinicPage}"
+    Route="clinics" />
+        
+        <ShellContent
            Title="Chat"
-           Icon="icon_logo.svg"
+           Icon="bot.png"
            ContentTemplate="{DataTemplate pages:ChatPage}"
            Route="chat" />
 

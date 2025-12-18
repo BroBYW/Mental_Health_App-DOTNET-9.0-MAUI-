@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Maps;
+using Plugin.LocalNotification;
+using PROJECT.Controls;
+using PROJECT.Pages;
 using PROJECT.Services;
 using PROJECT.ViewModels;
-using PROJECT.Pages;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-using Plugin.LocalNotification;
+using Microsoft.Maui.Maps.Handlers;
 
 namespace PROJECT
 {
@@ -14,12 +17,19 @@ namespace PROJECT
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>() // <--- THIS LINE IS CRITICAL. DO NOT DELETE.
+                .UseMauiMaps()
                 .UseLocalNotification()
                 .UseSkiaSharp()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                })
+                // 👇 ADD THIS BLOCK 👇
+                .ConfigureMauiHandlers(handlers =>
+                {
+                    // This tells MAUI: "When you see ClinicMap, use the standard MapHandler"
+                    handlers.AddHandler<ClinicMap, MapHandler>();
                 });
 
 #if DEBUG
@@ -61,6 +71,10 @@ namespace PROJECT
             builder.Services.AddTransient<AppPoliciesViewModel>();
             builder.Services.AddTransient<AppPoliciesPage>();
 
+            // ... inside CreateMauiApp method, under // ViewModels & Pages ...
+
+            builder.Services.AddTransient<ClinicViewModel>();
+            builder.Services.AddTransient<ClinicPage>();
 
             return builder.Build();
         }

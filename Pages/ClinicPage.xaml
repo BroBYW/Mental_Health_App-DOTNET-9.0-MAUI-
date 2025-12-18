@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             xmlns:controls="clr-namespace:PROJECT.Controls"
+             x:Class="PROJECT.Pages.ClinicPage"
+             x:DataType="vm:ClinicViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#F0F0F0">
+
+    <CollectionView ItemsSource="{Binding Clinics}"
+                    SelectionMode="None"
+                    Margin="10">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="vm:Clinic">
+                <Border StrokeShape="RoundRectangle 15"
+                        StrokeThickness="0"
+                        BackgroundColor="White"
+                        Padding="0">
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,2" Radius="5" Opacity="0.1"/>
+                    </Border.Shadow>
+
+                    <Grid RowDefinitions="180, Auto, Auto, 200" Padding="0,0,0,0">
+                        <Image Grid.Row="0" 
+                               Source="{Binding Image}" 
+                               Aspect="AspectFill"
+                               HeightRequest="180"/>
+
+                        <Label Grid.Row="1" 
+                               Text="{Binding Name}" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               Padding="15,10,15,0"/>
+
+                        <Label Grid.Row="2" 
+                               Text="{Binding Address}" 
+                               FontSize="14" 
+                               TextColor="Gray"
+                               Padding="15,0,15,10"/>
+
+                        <controls:ClinicMap Grid.Row="3"
+                                            Coordinates="{Binding Location}"
+                                            ClinicName="{Binding Name}"
+                                            HeightRequest="200"
+                                            IsScrollEnabled="False"
+                                            IsZoomEnabled="False" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

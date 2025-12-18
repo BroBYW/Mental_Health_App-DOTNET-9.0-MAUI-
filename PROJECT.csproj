@@ -21,6 +21,7 @@
 	<ItemGroup>
 		<MauiIcon Include="Resources\AppIcon\applogo.png" />
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiImage Include="Resources\Images\bot.png" />
 		<MauiImage Include="Resources\Images\clinic_kelvin.jpg" />
 		<MauiImage Include="Resources\Images\clinic_sibu.jpg" />
 		<MauiImage Include="Resources\Images\dotnet_bot.png" />
@@ -44,6 +45,7 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Resources\Images\bot.png" />
 	  <None Remove="Resources\Images\clinic_eddy.jpg" />
 	  <None Remove="Resources\Images\clinic_kelvin.jpg" />
 	  <None Remove="Resources\Images\clinic_sibu.jpg" />
@@ -62,6 +64,7 @@
 		<PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.82" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="9.0.40" />
 		<PackageReference Include="Onion.Maui.GoogleMaps" Version="6.0.1" />
 		<PackageReference Include="Plugin.LocalNotification" Version="12.0.2" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.119.1" />
