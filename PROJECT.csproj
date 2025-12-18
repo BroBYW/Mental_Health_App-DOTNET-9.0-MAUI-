@@ -21,6 +21,11 @@
 	<ItemGroup>
 		<MauiIcon Include="Resources\AppIcon\applogo.png" />
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiImage Include="Resources\Images\emo1.svg" />
+		<MauiImage Include="Resources\Images\emo2.svg" />
+		<MauiImage Include="Resources\Images\emo3.svg" />
+		<MauiImage Include="Resources\Images\emo4.svg" />
+		<MauiImage Include="Resources\Images\emo5.svg" />
 		<MauiImage Include="Resources\Images\bot.png" />
 		<MauiImage Include="Resources\Images\clinic_kelvin.jpg" />
 		<MauiImage Include="Resources\Images\clinic_sibu.jpg" />
