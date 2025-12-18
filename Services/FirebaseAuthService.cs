@@ -22,7 +22,7 @@ namespace PROJECT.Services
             var config = new FirebaseAuthConfig
             {
                 ApiKey = WebApiKey,
-                AuthDomain = "mad-mental.firebaseapp.com",
+                AuthDomain = "madfinal-6dbc5.firebaseapp.com",
                 Providers = new FirebaseAuthProvider[]
                 {
                     new EmailProvider()

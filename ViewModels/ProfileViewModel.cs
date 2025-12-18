@@ -114,6 +114,12 @@ namespace PROJECT.ViewModels
             }
         }
 
+        public ICommand ClinicCommand => new Command(async () =>
+        {
+            // This string "clinics" MUST match the route name in AppShell.xaml.cs (Fix 1)
+            await Shell.Current.GoToAsync("clinics");
+        });
+
         public ICommand GoToEditCommand => new Command(async () =>
         {
             await Shell.Current.GoToAsync("editProfile");

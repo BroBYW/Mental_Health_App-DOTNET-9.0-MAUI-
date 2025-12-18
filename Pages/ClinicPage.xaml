@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PROJECT.ViewModels"
+             xmlns:models="clr-namespace:PROJECT.Models"
+             x:Class="PROJECT.Pages.ClinicPage"
+             Title="Mental Health Clinics">
+
+    <CollectionView ItemsSource="{Binding Clinics}" Margin="10">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:Clinic">
+                <Border StrokeShape="RoundRectangle 10"
+                        StrokeThickness="0"
+                        BackgroundColor="White"
+                        Padding="0"
+                        Margin="0,0,0,15"
+                        Shadow="True">
+
+                    <VerticalStackLayout>
+                        <Image Source="{Binding Image}" 
+                               Aspect="AspectFill"
+                               HeightRequest="150"
+                               WidthRequest="400"/>
+
+                        <VerticalStackLayout Padding="15">
+                            <Label Text="{Binding Name}" 
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="#2D3E50"
+                                   Margin="0,0,0,5"/>
+
+                            <Label Text="{Binding Address}" 
+                                   FontSize="12"
+                                   TextColor="Gray"
+                                   Margin="0,0,0,10"/>
+
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

@@ -20,12 +20,6 @@
             Route="journal" />
 
         <ShellContent
-           Title="Location"
-           Icon="icon_location.svg"
-           ContentTemplate="{DataTemplate pages:LocationPage}"
-           Route="location" />
-
-        <ShellContent
            Title="Chat"
            Icon="icon_logo.svg"
            ContentTemplate="{DataTemplate pages:ChatPage}"

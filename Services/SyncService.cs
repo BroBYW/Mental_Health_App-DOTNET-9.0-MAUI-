@@ -11,7 +11,7 @@ namespace PROJECT.Services
 {
     public class SyncService
     {
-        private const string BaseUrl = "https://mad-mental-default-rtdb.asia-southeast1.firebasedatabase.app/";
+        private const string BaseUrl = "https://madfinal-6dbc5-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
         private readonly LocalDbService _localDb;
         private readonly FirebaseAuthService _authService;

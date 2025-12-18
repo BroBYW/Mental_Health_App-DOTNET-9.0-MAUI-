@@ -6,8 +6,8 @@ namespace PROJECT.Services
 {
     public class FirebaseStorageService
     {
-        // Keep your existing bucket name
-        private const string FirebaseStorageBucket = "mad-mental.firebasestorage.app";
+        // UPDATED: Use the new bucket name without "gs://"
+        private const string FirebaseStorageBucket = "madfinal-6dbc5.firebasestorage.app";
 
         private readonly FirebaseStorage _firebaseStorage;
 
@@ -16,7 +16,6 @@ namespace PROJECT.Services
             _firebaseStorage = new FirebaseStorage(FirebaseStorageBucket);
         }
 
-        // UPDATED: Added optional 'folderName' parameter
         public async Task<string> UploadImageAsync(Stream fileStream, string fileName, string folderName = "journal_images")
         {
             var imageUrl = await _firebaseStorage

@@ -3,7 +3,6 @@ using Android.Runtime;
 
 // ADD THIS LINE HERE:
 // This injects the key into AndroidManifest.xml during the build
-[assembly: MetaData("com.google.android.geo.API_KEY", Value = PROJECT.Secrets.GoogleMapsApiKey)]
 
 namespace PROJECT
 {
