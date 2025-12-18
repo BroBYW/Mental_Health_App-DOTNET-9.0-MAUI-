@@ -39,13 +39,26 @@ namespace PROJECT.ViewModels
             _authService = authService;
             _syncService = syncService;
 
-            // Load cached info immediately so the user sees something while we fetch fresh data
+            // Initial load from cached Auth data
+            LoadFromAuth();
+        }
+
+        // Helper to load basic info from the logged-in user
+        private void LoadFromAuth()
+        {
             var user = _authService.GetCurrentUser();
             if (user != null)
             {
-                UserName = user.Info.DisplayName ?? "User";
-                Email = user.Info.Email;
-                ProfileImage = user.Info.PhotoUrl;
+                // Only set if we don't already have values (or if resetting)
+                if (string.IsNullOrEmpty(UserName) || UserName == "User")
+                    UserName = user.Info.DisplayName ?? "User";
+
+                if (string.IsNullOrEmpty(Email) || Email == "user@example.com")
+                    Email = user.Info.Email;
+
+                // Always try to grab the Auth photo if current is empty
+                if (string.IsNullOrEmpty(ProfileImage))
+                    ProfileImage = user.Info.PhotoUrl;
             }
         }
 
@@ -59,49 +72,36 @@ namespace PROJECT.ViewModels
                 var userId = _authService.CurrentUserId;
                 if (string.IsNullOrEmpty(userId)) return;
 
-                // 1. Try fetching fresh data from Realtime DB
+                // 1. Fetch fresh data from Realtime DB
                 var dbProfile = await _syncService.GetUserProfileAsync(userId);
 
                 if (dbProfile != null)
                 {
-                    UserName = dbProfile.Username;
+                    // Update Username if present
+                    if (!string.IsNullOrEmpty(dbProfile.Username))
+                        UserName = dbProfile.Username;
 
-                    // FIX: Only overwrite Email if the DB actually has one. 
-                    // Otherwise, keep the Auth email we loaded in the constructor.
+                    // Update Email if present
                     if (!string.IsNullOrEmpty(dbProfile.Email))
-                    {
                         Email = dbProfile.Email;
-                    }
-                    else
-                    {
-                        // Fallback: If DB email is empty, double-check Auth
-                        var user = _authService.GetCurrentUser();
-                        if (user != null) Email = user.Info.Email;
-                    }
 
-                    // Only update if we have a valid URL
+                    // Update Photo: 
+                    // If DB has a photo, use it. 
+                    // If DB has NO photo, but we currently have none, try falling back to Auth again.
                     if (!string.IsNullOrEmpty(dbProfile.PhotoUrl))
                     {
                         ProfileImage = dbProfile.PhotoUrl;
                     }
+                    else if (string.IsNullOrEmpty(ProfileImage))
+                    {
+                        // DB has no photo, and we have no photo -> Check Auth one last time
+                        LoadFromAuth();
+                    }
                 }
                 else
                 {
-                    // 2. Fallback to Auth Data if NO db profile exists
-                    if (string.IsNullOrEmpty(ProfileImage))
-                    {
-                        var user = _authService.GetCurrentUser();
-                        if (user != null)
-                        {
-                            UserName = user.Info.DisplayName ?? "User";
-                            Email = user.Info.Email;
-
-                            if (!string.IsNullOrEmpty(user.Info.PhotoUrl))
-                            {
-                                ProfileImage = user.Info.PhotoUrl;
-                            }
-                        }
-                    }
+                    // 2. No DB profile found? Ensure we at least show Auth data
+                    LoadFromAuth();
                 }
             }
             catch (Exception ex)
@@ -116,7 +116,6 @@ namespace PROJECT.ViewModels
 
         public ICommand ClinicCommand => new Command(async () =>
         {
-            // This string "clinics" MUST match the route name in AppShell.xaml.cs (Fix 1)
             await Shell.Current.GoToAsync("clinics");
         });
 

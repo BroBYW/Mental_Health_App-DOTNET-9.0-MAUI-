@@ -21,15 +21,16 @@
 	<ItemGroup>
 		<MauiIcon Include="Resources\AppIcon\applogo.png" />
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-		<MauiImage Include="Resources\Images\emo1.svg" />
-		<MauiImage Include="Resources\Images\emo2.svg" />
-		<MauiImage Include="Resources\Images\emo3.svg" />
-		<MauiImage Include="Resources\Images\emo4.svg" />
-		<MauiImage Include="Resources\Images\emo5.svg" />
 		<MauiImage Include="Resources\Images\bot.png" />
 		<MauiImage Include="Resources\Images\clinic_kelvin.jpg" />
 		<MauiImage Include="Resources\Images\clinic_sibu.jpg" />
 		<MauiImage Include="Resources\Images\dotnet_bot.png" />
+		<MauiImage Include="Resources\Images\emo1.png" />
+		<MauiImage Include="Resources\Images\emo2.png" />
+		<MauiImage Include="Resources\Images\emo3.png" />
+		<MauiImage Include="Resources\Images\emo4.png" />
+		<MauiImage Include="Resources\Images\nodata.png" />
+		<MauiImage Include="Resources\Images\robot.png" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 		<MauiImage Include="Resources\Images\icon_location.svg" />
 		<MauiImage Include="Resources\Images\icon_journal.svg" />
@@ -55,6 +56,13 @@
 	  <None Remove="Resources\Images\clinic_kelvin.jpg" />
 	  <None Remove="Resources\Images\clinic_sibu.jpg" />
 	  <None Remove="Resources\Images\custom_pin.png" />
+	  <None Remove="Resources\Images\emo1.png" />
+	  <None Remove="Resources\Images\emo2.png" />
+	  <None Remove="Resources\Images\emo3.png" />
+	  <None Remove="Resources\Images\emo4.png" />
+	  <None Remove="Resources\Images\emo5.png" />
+	  <None Remove="Resources\Images\nodata.png" />
+	  <None Remove="Resources\Images\robot.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <AndroidResource Include="Resources\drawable\custom_pin.png" />
@@ -107,5 +115,8 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Resources\quotes\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\emo5.png" />
 	</ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="18" Padding="24">
+
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
                 <Image Grid.Column="0" Source="icon_logo.svg" WidthRequest="36" HeightRequest="36"/>
                 <Button Grid.Column="2" Text="Log Out" BackgroundColor="{StaticResource Primary}" Padding="14,8" Command="{Binding LogoutCommand}"/>
@@ -17,14 +18,15 @@
             <Label Text="Hey [Name]!" FontSize="36" FontAttributes="Bold" TextColor="{StaticResource MidnightBlue}" />
             <Label Text="How do you feel today?" FontSize="24" TextColor="{StaticResource MidnightBlue}" />
 
-            <HorizontalStackLayout Spacing="15" Margin="0,8,0,0" HorizontalOptions="Center">
+            <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="5" Margin="0,8,0,0">
 
-                <Button Text="☹️"
-                        FontSize="32"
+                <Button Grid.Column="0"
+                        Text="☹️"
+                        FontSize="26"
                         Padding="0"
-                        WidthRequest="60"
-                        HeightRequest="60"
-                        CornerRadius="30"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        CornerRadius="25"
                         BackgroundColor="Transparent"
                         BorderColor="Transparent"
                         Command="{Binding SelectMoodCommand}"
@@ -38,12 +40,13 @@
                     </Button.Triggers>
                 </Button>
 
-                <Button Text="🙁"
-                        FontSize="32"
+                <Button Grid.Column="1"
+                        Text="🙁"
+                        FontSize="26"
                         Padding="0"
-                        WidthRequest="60"
-                        HeightRequest="60"
-                        CornerRadius="30"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        CornerRadius="25"
                         BackgroundColor="Transparent"
                         BorderColor="Transparent"
                         Command="{Binding SelectMoodCommand}"
@@ -57,12 +60,13 @@
                     </Button.Triggers>
                 </Button>
 
-                <Button Text="😐"
-                        FontSize="32"
+                <Button Grid.Column="2"
+                        Text="😐"
+                        FontSize="26"
                         Padding="0"
-                        WidthRequest="60"
-                        HeightRequest="60"
-                        CornerRadius="30"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        CornerRadius="25"
                         BackgroundColor="Transparent"
                         BorderColor="Transparent"
                         Command="{Binding SelectMoodCommand}"
@@ -76,12 +80,13 @@
                     </Button.Triggers>
                 </Button>
 
-                <Button Text="🙂"
-                        FontSize="32"
+                <Button Grid.Column="3"
+                        Text="🙂"
+                        FontSize="26"
                         Padding="0"
-                        WidthRequest="60"
-                        HeightRequest="60"
-                        CornerRadius="30"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        CornerRadius="25"
                         BackgroundColor="Transparent"
                         BorderColor="Transparent"
                         Command="{Binding SelectMoodCommand}"
@@ -95,12 +100,13 @@
                     </Button.Triggers>
                 </Button>
 
-                <Button Text="😀"
-                        FontSize="32"
+                <Button Grid.Column="4"
+                        Text="😀"
+                        FontSize="26"
                         Padding="0"
-                        WidthRequest="60"
-                        HeightRequest="60"
-                        CornerRadius="30"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        CornerRadius="25"
                         BackgroundColor="Transparent"
                         BorderColor="Transparent"
                         Command="{Binding SelectMoodCommand}"
@@ -114,7 +120,7 @@
                     </Button.Triggers>
                 </Button>
 
-            </HorizontalStackLayout>
+            </Grid>
 
             <Grid>
                 <Editor x:Name="NoteEditor" Text="{Binding Note}" Placeholder="Write about your day..." HeightRequest="220"/>
@@ -126,7 +132,6 @@
                     BackgroundColor="{StaticResource White}"
                     Stroke="{StaticResource Primary}"
                     StrokeThickness="1">
-
                 <Border.Shadow>
                     <Shadow Brush="Black" Offset="2,2" Radius="5" Opacity="0.2"/>
                 </Border.Shadow>

@@ -10,7 +10,6 @@ using System.Collections.Generic;
 
 namespace PROJECT.ViewModels
 {
-    // Simple helper class for the pair
     public class QuoteItem
     {
         public string Image { get; set; } = string.Empty;
@@ -23,7 +22,6 @@ namespace PROJECT.ViewModels
         private readonly FirebaseAuthService _authService;
         private readonly IDispatcherTimer? _quoteTimer;
 
-        // UPDATED: List now contains specific Image + Text pairs
         private readonly List<QuoteItem> _quotes = new()
         {
             new QuoteItem { Image = "quote1.png", Text = "Every day may not be good, but there is something good in every day." },
@@ -38,8 +36,11 @@ namespace PROJECT.ViewModels
 
         private int _selectedYear;
         private string _quote = string.Empty;
-        private string _quoteImage = string.Empty; // NEW Property
-        private string _averageMood = "No Data";
+        private string _quoteImage = string.Empty;
+
+        // CHANGED: Default image is now nodata.png
+        private string _averageMoodImage = "nodata.png";
+        private string _averageMoodText = "No Data";
 
         public int SelectedYear
         {
@@ -59,17 +60,22 @@ namespace PROJECT.ViewModels
             set => SetProperty(ref _quote, value);
         }
 
-        // NEW Property to bind the image to
         public string QuoteImage
         {
             get => _quoteImage;
             set => SetProperty(ref _quoteImage, value);
         }
 
-        public string AverageMood
+        public string AverageMoodImage
         {
-            get => _averageMood;
-            set => SetProperty(ref _averageMood, value);
+            get => _averageMoodImage;
+            set => SetProperty(ref _averageMoodImage, value);
+        }
+
+        public string AverageMoodText
+        {
+            get => _averageMoodText;
+            set => SetProperty(ref _averageMoodText, value);
         }
 
         public DashboardViewModel(LocalDbService localDbService, FirebaseAuthService authService)
@@ -102,8 +108,6 @@ namespace PROJECT.ViewModels
             {
                 var random = new Random();
                 var selectedItem = _quotes[random.Next(_quotes.Count)];
-
-                // Set both properties
                 Quote = selectedItem.Text;
                 QuoteImage = selectedItem.Image;
             }
@@ -117,16 +121,16 @@ namespace PROJECT.ViewModels
             try
             {
                 var userId = _authService.CurrentUserId;
-
                 if (string.IsNullOrEmpty(userId))
                 {
                     Points.Clear();
-                    AverageMood = "No Data";
+                    AverageMoodText = "No Data";
+                    // CHANGED: Use nodata.png
+                    AverageMoodImage = "nodata.png";
                     return;
                 }
 
                 var allEntries = await _localDbService.GetEntries(userId);
-
                 Points.Clear();
 
                 var yearlyEntries = allEntries
@@ -151,27 +155,31 @@ namespace PROJECT.ViewModels
                     int roundedScore = (int)Math.Round(avgScore);
                     Mood avgMoodEnum = (Mood)roundedScore;
 
-                    string emoji = avgMoodEnum switch
+                    // Set specific mood image
+                    AverageMoodImage = avgMoodEnum switch
                     {
-                        Mood.Rad => "😀",
-                        Mood.Good => "🙂",
-                        Mood.Meh => "😐",
-                        Mood.Bad => "🙁",
-                        Mood.Awful => "☹️",
-                        _ => "🙂"
+                        Mood.Awful => "emo1.png",
+                        Mood.Bad => "emo2.png",
+                        Mood.Meh => "emo3.png",
+                        Mood.Good => "emo4.png",
+                        Mood.Rad => "emo5.png",
+                        _ => "emo3.png"
                     };
 
-                    AverageMood = $"Avg: {avgMoodEnum} {emoji}";
+                    AverageMoodText = avgMoodEnum.ToString();
                 }
                 else
                 {
-                    AverageMood = "No Data";
+                    // CHANGED: No entries found -> nodata.png
+                    AverageMoodText = "No Data";
+                    AverageMoodImage = "nodata.png";
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error loading dashboard: {ex.Message}");
-                AverageMood = "Error";
+                AverageMoodText = "Error";
+                AverageMoodImage = "nodata.png";
             }
             finally
             {

@@ -27,7 +27,7 @@
         
         <ShellContent
            Title="Chat"
-           Icon="bot.png"
+           Icon="robot.png"
            ContentTemplate="{DataTemplate pages:ChatPage}"
            Route="chat" />
 

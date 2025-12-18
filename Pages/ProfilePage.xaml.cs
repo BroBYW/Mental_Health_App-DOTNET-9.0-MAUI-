@@ -4,7 +4,7 @@ namespace PROJECT.Pages
 {
     public partial class ProfilePage : ContentPage
     {
-        private ProfileViewModel _vm;
+        private readonly ProfileViewModel _vm;
 
         public ProfilePage(ProfileViewModel vm)
         {
@@ -13,11 +13,16 @@ namespace PROJECT.Pages
             BindingContext = _vm;
         }
 
+        // THIS IS CRITICAL: The data must be fetched every time the page appears
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            // Call the async method
-            await _vm.LoadUserProfileAsync();
+            // This forces the ViewModel to check the database/auth 
+            // every time you look at the profile.
+            if (_vm != null)
+            {
+                await _vm.LoadUserProfileAsync();
+            }
         }
     }
 }
