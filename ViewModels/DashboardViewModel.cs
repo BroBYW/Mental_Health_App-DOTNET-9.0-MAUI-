@@ -16,6 +16,15 @@ namespace PROJECT.ViewModels
         public string Text { get; set; } = string.Empty;
     }
 
+    // 1. NewsItem with initialized properties to fix warnings
+    public class NewsItem
+    {
+        public string Title { get; set; } = string.Empty;
+        public string Summary { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
+    }
+
     public class DashboardViewModel : BaseViewModel
     {
         private readonly LocalDbService _localDbService;
@@ -33,14 +42,14 @@ namespace PROJECT.ViewModels
 
         public ObservableCollection<int> Years { get; } = new();
         public ObservableCollection<MoodPoint> Points { get; } = new();
+        public ObservableCollection<NewsItem> NewsList { get; } = new();
 
         private int _selectedYear;
         private string _quote = string.Empty;
         private string _quoteImage = string.Empty;
-
-        // CHANGED: Default image is now nodata.png
         private string _averageMoodImage = "nodata.png";
         private string _averageMoodText = "No Data";
+        private NewsItem? _selectedNewsItem; // Nullable backing field
 
         public int SelectedYear
         {
@@ -78,6 +87,28 @@ namespace PROJECT.ViewModels
             set => SetProperty(ref _averageMoodText, value);
         }
 
+        // 2. SelectedNewsItem property handling navigation
+        public NewsItem? SelectedNewsItem
+        {
+            get => _selectedNewsItem;
+            set
+            {
+                if (_selectedNewsItem != value)
+                {
+                    _selectedNewsItem = value;
+                    OnPropertyChanged();
+
+                    // If a valid item was selected, navigate
+                    if (_selectedNewsItem != null)
+                    {
+                        OpenNewsUrl(_selectedNewsItem.Url);
+                        // Reset selection so the user can click it again later
+                        SelectedNewsItem = null;
+                    }
+                }
+            }
+        }
+
         public DashboardViewModel(LocalDbService localDbService, FirebaseAuthService authService)
         {
             _localDbService = localDbService;
@@ -100,6 +131,35 @@ namespace PROJECT.ViewModels
             }
 
             UpdateQuote();
+            LoadNews();
+        }
+
+        private void LoadNews()
+        {
+            NewsList.Clear();
+            NewsList.Add(new NewsItem
+            {
+                Title = "5 Ways to Improve Sleep",
+                Summary = "Better sleep equals better mental health. Here are 5 tips.",
+                ImageUrl = "news1.png",
+                Url = "https://www.sleepfoundation.org/mental-health"
+            });
+
+            NewsList.Add(new NewsItem
+            {
+                Title = "The Power of Mindfulness",
+                Summary = "How staying in the moment can reduce anxiety.",
+                ImageUrl = "news2.jpg",
+                Url = "https://www.mindful.org/"
+            });
+
+            NewsList.Add(new NewsItem
+            {
+                Title = "Exercise and Mood",
+                Summary = "Why moving your body helps your brain.",
+                ImageUrl = "news3.png",
+                Url = "https://www.helpguide.org/articles/healthy-living/the-mental-health-benefits-of-exercise.htm"
+            });
         }
 
         private void UpdateQuote()
@@ -110,6 +170,15 @@ namespace PROJECT.ViewModels
                 var selectedItem = _quotes[random.Next(_quotes.Count)];
                 Quote = selectedItem.Text;
                 QuoteImage = selectedItem.Image;
+            }
+        }
+
+        private async void OpenNewsUrl(string url)
+        {
+            if (!string.IsNullOrEmpty(url))
+            {
+                // Navigate to the internal ArticlePage
+                await Shell.Current.GoToAsync($"article?url={Uri.EscapeDataString(url)}");
             }
         }
 
@@ -125,7 +194,6 @@ namespace PROJECT.ViewModels
                 {
                     Points.Clear();
                     AverageMoodText = "No Data";
-                    // CHANGED: Use nodata.png
                     AverageMoodImage = "nodata.png";
                     return;
                 }
@@ -155,7 +223,6 @@ namespace PROJECT.ViewModels
                     int roundedScore = (int)Math.Round(avgScore);
                     Mood avgMoodEnum = (Mood)roundedScore;
 
-                    // Set specific mood image
                     AverageMoodImage = avgMoodEnum switch
                     {
                         Mood.Awful => "emo1.png",
@@ -170,7 +237,6 @@ namespace PROJECT.ViewModels
                 }
                 else
                 {
-                    // CHANGED: No entries found -> nodata.png
                     AverageMoodText = "No Data";
                     AverageMoodImage = "nodata.png";
                 }

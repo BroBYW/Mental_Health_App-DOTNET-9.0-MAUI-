@@ -1,13 +1,14 @@
 using PROJECT.Services;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
-using PROJECT.Pages; // Needed to resolve RegisterPage
+using PROJECT.Pages;
 
 namespace PROJECT.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private readonly FirebaseAuthService _authService;
+        private readonly SyncService _syncService; // 1. Add SyncService field
 
         private string _emailOrPhone = string.Empty;
         private string _password = string.Empty;
@@ -45,20 +46,20 @@ namespace PROJECT.ViewModels
             set => SetProperty(ref _isLoading, value);
         }
 
-        public LoginViewModel(FirebaseAuthService authService)
+        // 2. Inject SyncService in the constructor
+        public LoginViewModel(FirebaseAuthService authService, SyncService syncService)
         {
             _authService = authService;
+            _syncService = syncService;
         }
 
         public ICommand TogglePasswordCommand => new Command(() => IsPasswordHidden = !IsPasswordHidden);
 
         public ICommand ForgotPasswordCommand => new Command(async () =>
         {
-            // 1. Get the current page reference for alerts
             var mainPage = Application.Current?.Windows.FirstOrDefault()?.Page;
             if (mainPage == null) return;
 
-            // 2. Validate that an email has been entered
             if (string.IsNullOrWhiteSpace(EmailOrPhone))
             {
                 await mainPage.DisplayAlert("Error", "Please enter your email address in the field above to reset your password.", "OK");
@@ -70,18 +71,13 @@ namespace PROJECT.ViewModels
             try
             {
                 IsLoading = true;
-
-                // 3. Call the service
                 await _authService.ResetPasswordAsync(EmailOrPhone);
-
-                // 4. Success Message
                 await mainPage.DisplayAlert("Email Sent",
                     $"A password reset link has been sent to {EmailOrPhone}. Please check your inbox (and spam folder).",
                     "OK");
             }
             catch (Exception)
             {
-                // 5. Error Message
                 await mainPage.DisplayAlert("Error", "Failed to send reset email. Please ensure the email address is correct and registered.", "OK");
             }
             finally
@@ -107,11 +103,14 @@ namespace PROJECT.ViewModels
             try
             {
                 IsLoading = true;
-                // CHANGED: Passing the 'RememberMe' boolean property
+
                 var token = await _authService.LoginAsync(EmailOrPhone, Password, RememberMe);
 
                 if (!string.IsNullOrEmpty(token))
                 {
+                    // 3. Pull data immediately after login so it's ready for the Dashboard
+                    await _syncService.PullDataAsync();
+
                     // Successfully logged in, switch to main app Shell
                     var window = Application.Current?.Windows.FirstOrDefault();
                     if (window != null)
@@ -136,7 +135,6 @@ namespace PROJECT.ViewModels
 
         public ICommand SignUpNavigateCommand => new Command(async () =>
         {
-            // FIX: Use Navigation Stack instead of Shell
             var registerPage = Application.Current?.Handler?.MauiContext?.Services.GetService<RegisterPage>();
             var mainPage = Application.Current?.Windows.FirstOrDefault()?.Page;
             if (registerPage != null && mainPage?.Navigation != null)

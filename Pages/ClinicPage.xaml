@@ -6,7 +6,7 @@
              x:Class="PROJECT.Pages.ClinicPage"
              x:DataType="vm:ClinicViewModel"
              Title="{Binding Title}"
-             BackgroundColor="#F0F0F0">
+             BackgroundColor="White">
 
     <CollectionView ItemsSource="{Binding Clinics}"
                     SelectionMode="None"

@@ -7,7 +7,7 @@
              Title="Dashboard">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="24">
+        <VerticalStackLayout Spacing="20" Padding="24,24,24,40">
 
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
                 <Image Grid.Column="0" Source="logo.png" WidthRequest="36" HeightRequest="36"/>
@@ -32,17 +32,8 @@
                 </Border.Shadow>
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Daily Inspiration" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center"/>
-
-                    <Image Source="{Binding QuoteImage}" 
-                           HeightRequest="150" 
-                           Aspect="AspectFit" 
-                           HorizontalOptions="Center" />
-
-                    <Label Text="{Binding Quote}" 
-                           TextColor="{StaticResource Secondary}" 
-                           HorizontalOptions="Center" 
-                           HorizontalTextAlignment="Center"
-                           FontAttributes="Italic"/>
+                    <Image Source="{Binding QuoteImage}" HeightRequest="150" Aspect="AspectFit" HorizontalOptions="Center" />
+                    <Label Text="{Binding Quote}" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Italic"/>
                 </VerticalStackLayout>
             </Border>
 
@@ -57,30 +48,71 @@
                     StrokeThickness="0"
                     Padding="24"
                     HorizontalOptions="Fill">
-
                 <Border.Shadow>
                     <Shadow Brush="Black" Offset="0,0" Radius="5" Opacity="0.2"/>
                 </Border.Shadow>
-
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="Average Mood" 
-                           TextColor="{StaticResource Primary}" 
-                           FontSize="20"
-                           FontAttributes="Bold" 
-                           HorizontalOptions="Center"/>
-
-                    <Label Text="{Binding AverageMoodText}"
-                           TextColor="{StaticResource Primary}"
-                           FontSize="60" 
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"/>
-
-                    <Image Source="{Binding AverageMoodImage}" 
-                           HeightRequest="180" 
-                           Aspect="AspectFit"
-                           HorizontalOptions="Center"/>
+                    <Label Text="Average Mood" TextColor="{StaticResource Primary}" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="{Binding AverageMoodText}" TextColor="{StaticResource Primary}" FontSize="60" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Image Source="{Binding AverageMoodImage}" HeightRequest="180" Aspect="AspectFit" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </Border>
+
+            <Label Text="Mental Health News" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="{StaticResource MidnightBlue}" 
+                   Margin="0,10,0,0"/>
+
+            <CollectionView ItemsSource="{Binding NewsList}" 
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedNewsItem}"
+                            HeightRequest="240"
+                            VerticalOptions="Start">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="15" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:NewsItem">
+                        <Border WidthRequest="200" 
+                                StrokeShape="RoundRectangle 20"
+                                StrokeThickness="0"
+                                BackgroundColor="White"
+                                Padding="0"
+                                Margin="0,0,0,10">
+
+                            <Border.Shadow>
+                                <Shadow Brush="Black" Offset="2,2" Radius="5" Opacity="0.1"/>
+                            </Border.Shadow>
+
+                            <Grid RowDefinitions="120, Auto, *">
+                                <Image Grid.Row="0" 
+                                       Source="{Binding ImageUrl}" 
+                                       Aspect="AspectFill" />
+
+                                <Label Grid.Row="1" 
+                                       Text="{Binding Title}" 
+                                       FontAttributes="Bold" 
+                                       FontSize="14" 
+                                       TextColor="{StaticResource MidnightBlue}" 
+                                       LineBreakMode="TailTruncation" 
+                                       MaxLines="2" 
+                                       Margin="12,8,12,0"/>
+
+                                <Label Grid.Row="2" 
+                                       Text="{Binding Summary}" 
+                                       FontSize="12" 
+                                       TextColor="Gray" 
+                                       LineBreakMode="TailTruncation" 
+                                       MaxLines="3" 
+                                       Margin="12,4,12,12"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>

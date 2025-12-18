@@ -76,6 +76,8 @@ namespace PROJECT
             builder.Services.AddTransient<ClinicViewModel>();
             builder.Services.AddTransient<ClinicPage>();
 
+            builder.Services.AddTransient<ArticlePage>();
+
             return builder.Build();
         }
     }
