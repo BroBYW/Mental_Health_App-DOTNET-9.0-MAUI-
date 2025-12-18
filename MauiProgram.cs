@@ -60,7 +60,8 @@ namespace PROJECT
 
             builder.Services.AddTransient<AppPoliciesViewModel>();
             builder.Services.AddTransient<AppPoliciesPage>();
-         
+
+
             return builder.Build();
         }
     }

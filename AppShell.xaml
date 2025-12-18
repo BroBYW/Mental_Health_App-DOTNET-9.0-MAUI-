@@ -30,7 +30,7 @@
             Icon="dotnet_bot.png" 
             ContentTemplate="{DataTemplate pages:ProfilePage}" 
             Route="profile" />
-        
+
     </TabBar>
 
 </Shell>

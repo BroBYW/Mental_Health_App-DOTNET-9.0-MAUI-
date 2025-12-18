@@ -6,7 +6,6 @@ namespace PROJECT.Services
 {
     public class FirebaseStorageService
     {
-        // UPDATED: Use the new bucket name without "gs://"
         private const string FirebaseStorageBucket = "madfinal-6dbc5.firebasestorage.app";
 
         private readonly FirebaseStorage _firebaseStorage;
