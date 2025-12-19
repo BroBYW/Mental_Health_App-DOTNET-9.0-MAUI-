@@ -30,7 +30,6 @@ namespace PROJECT.ViewModels
                 Name = "Eddy Su Specialist Clinic",
                 Address = "No. 8 (GF), Taman Damai, Jalan Tun Abang Haji Openg, 96000 Sibu",
                 Image = "clinic_eddy.jpg",
-                // Updated Coordinate
                 Location = new Location(2.3106574382620853, 111.83108172906093)
             });
 
@@ -39,7 +38,6 @@ namespace PROJECT.ViewModels
                 Name = "Kelvin Lau Specialist Clinic",
                 Address = "1st Floor, No. 7, Jalan Maju, 96000 Sibu",
                 Image = "clinic_kelvin.jpg",
-                // Updated Coordinate
                 Location = new Location(2.285997345837242, 111.83033869813882)
             });
 
@@ -48,7 +46,6 @@ namespace PROJECT.ViewModels
                 Name = "Hospital Sibu (Psychiatric Specialist)",
                 Address = "Batu 5 1/2, Jalan Ulu Oya, 96000 Sibu",
                 Image = "clinic_sibu.jpg",
-                // Updated Coordinate
                 Location = new Location(2.2966182786366507, 111.89183131556717)
             });
         }
@@ -59,14 +56,13 @@ namespace PROJECT.ViewModels
 
             try
             {
-                // Try to open the native map app
                 await Map.OpenAsync(new Placemark
                 {
                     Thoroughfare = clinic.Address,
                     Locality = "Sibu",
                     AdminArea = "Sarawak",
                     CountryName = "Malaysia",
-                    Location = clinic.Location // Pass the specific location as well
+                    Location = clinic.Location
                 },
                 new MapLaunchOptions
                 {
@@ -76,10 +72,8 @@ namespace PROJECT.ViewModels
             }
             catch (Exception)
             {
-                // Fallback: Open Google Maps in Browser
                 var query = Uri.EscapeDataString($"{clinic.Location.Latitude},{clinic.Location.Longitude}");
                 var googleMapsUrl = $"https://www.google.com/maps/search/?api=1&query={query}";
-
                 await Launcher.OpenAsync(new Uri(googleMapsUrl));
             }
         });

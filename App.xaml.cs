@@ -77,9 +77,14 @@ namespace PROJECT
         {
             try
             {
+                // 1. Check if allowed
                 if (await LocalNotificationCenter.Current.AreNotificationsEnabled() == false)
                 {
-                    await LocalNotificationCenter.Current.RequestNotificationPermission();
+                    // 2. Request permission and WAIT for result
+                    bool granted = await LocalNotificationCenter.Current.RequestNotificationPermission();
+
+                    // 3. If denied, stop here to avoid errors/logs
+                    if (!granted) return;
                 }
 
                 // 1. Morning Check-in (8:00 AM)

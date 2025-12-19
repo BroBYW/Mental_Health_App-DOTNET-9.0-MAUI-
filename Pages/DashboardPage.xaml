@@ -16,14 +16,27 @@
             <Label Text="Your Days" FontSize="36" FontAttributes="Bold" TextColor="{StaticResource MidnightBlue}" />
             <Label Text="at a Glance" FontSize="24" TextColor="{StaticResource MidnightBlue}" Margin="0,-10,0,0"/>
 
-            <Picker ItemsSource="{Binding Years}" 
-                    SelectedItem="{Binding SelectedYear}" 
-                    Title="Select Year"
-                    WidthRequest="150"
-                    HorizontalOptions="Start"
-                    TextColor="{StaticResource MidnightBlue}"
-                    FontAttributes="Bold" />
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
+                <Label Text="Year:" 
+                       VerticalOptions="Center" 
+                       TextColor="{StaticResource MidnightBlue}" 
+                       FontAttributes="Bold" />
 
+                <Border StrokeShape="RoundRectangle 8" 
+                        StrokeThickness="1" 
+                        Stroke="{StaticResource Primary}" 
+                        Padding="0" 
+                        VerticalOptions="Center">
+                    <Picker ItemsSource="{Binding Years}" 
+                            SelectedItem="{Binding SelectedYear}" 
+                            TextColor="{StaticResource Primary}" 
+                            Title="Year" 
+                            WidthRequest="90" 
+                            HeightRequest="40" 
+                            HorizontalTextAlignment="Center" 
+                            FontSize="14" />
+                </Border>
+            </HorizontalStackLayout>
             <GraphicsView x:Name="ChartView" HeightRequest="220"/>
 
             <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 24" StrokeThickness="0" Padding="16">

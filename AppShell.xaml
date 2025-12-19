@@ -8,7 +8,7 @@
 
     <TabBar>
         <ShellContent
-            Title="Dashboard"
+            Title="Home"
             Icon="icon_dashboard.svg"
             ContentTemplate="{DataTemplate pages:DashboardPage}"
             Route="dashboard" />
@@ -20,11 +20,11 @@
             Route="journal" />
 
         <ShellContent
-    Title="Clinics"
-    Icon="icon_location.svg"
-    ContentTemplate="{DataTemplate pages:ClinicPage}"
-    Route="clinics" />
-        
+            Title="Clinics"
+            Icon="icon_location.svg"
+            ContentTemplate="{DataTemplate pages:ClinicPage}"
+            Route="clinics" />
+
         <ShellContent
            Title="Chat"
            Icon="robot.png"
